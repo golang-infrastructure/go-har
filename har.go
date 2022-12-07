@@ -2,8 +2,23 @@ package har
 
 import (
 	"encoding/json"
+	"os"
 	"time"
 )
+
+// ParseHarFile 解析HAR格式的文件
+func ParseHarFile(harFilePath string) (*Har, error) {
+	harFileBytes, err := os.ReadFile(harFilePath)
+	if err != nil {
+		return nil, err
+	}
+	har := new(Har)
+	err = json.Unmarshal(harFileBytes, har)
+	if err != nil {
+		return nil, err
+	}
+	return har, nil
+}
 
 // ParseHar 解析HAR格式的文件
 func ParseHar(harFileBytes []byte) (*Har, error) {
@@ -98,20 +113,20 @@ type Cache struct {
 }
 
 type Timings struct {
-	Blocked         float64     `json:"blocked"`
-	DNS             float64     `json:"dns"`
-	Connect         float64     `json:"connect"`
-	Send            float64     `json:"send"`
-	Wait            float64     `json:"wait"`
-	Receive         float64     `json:"receive"`
-	Ssl             float64     `json:"ssl"`
+	Blocked         float64 `json:"blocked"`
+	DNS             float64 `json:"dns"`
+	Connect         float64 `json:"connect"`
+	Send            float64 `json:"send"`
+	Wait            float64 `json:"wait"`
+	Receive         float64 `json:"receive"`
+	Ssl             float64 `json:"ssl"`
 	BlockedQueueing float64 `json:"_blocked_queueing"`
 	BlockedProxy    float64 `json:"_blocked_proxy"`
 }
 
 type Entries struct {
 	StartedDateTime time.Time `json:"startedDateTime"`
-	Time            float64       `json:"time"`
+	Time            float64   `json:"time"`
 	Request         Request   `json:"request"`
 	Response        Response  `json:"response"`
 	Cache           Cache     `json:"cache"`

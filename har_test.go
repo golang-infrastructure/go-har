@@ -13,3 +13,9 @@ func TestParseHar(t *testing.T) {
 	assert.Nil(t, err)
 	t.Log(har)
 }
+
+func TestParseHarFile(t *testing.T) {
+	har, err := ParseHarFile("./data/www.google.com.har")
+	assert.Nil(t, err)
+	t.Log(har)
+}
